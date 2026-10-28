@@ -1,62 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il mio video gioco preferito</title>
+    <title>amused rose</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: Helvetica, Arial, sans-serif;
+            overflow: hidden; /* disable scrolling / rubberband effect on mobile */
+            height:100vh;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            outline:0;
+        }
+
+        * {
+            /* disable on touch highlights of html elements, especially on mobile! */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+    </style>
+    
+    
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <meta itemprop="name" content="amused rose">
+    <meta itemprop="description" content="made with cables">
+    <meta itemprop="image" content="screenshot.png">
+    <meta name="description" content="made with cables"/>
+
 </head>
 <body>
-    <h1>Il mio video gioco preferito</h1>
-    <p>Buongiorno tutti. Sono <strong>Shiyu Ye</strong>.
-        <br>Giocherei <em><cite> Identity V.</cite></em>
-    <br>Ma cosa è Identity V?</p>
-    <blockquote cite="https://www.identityvgame.com/en/story.html">
-        
-        <p>Identity V: 1 vs 4 Asymmetrical Mobile Game</p>
-    </blockquote>
-    <p>Su internet possiamo chiamarlo <abbr title="Identity V">
-        IDV</abbr>.<br>Questo gioco ha molti nomi proprietari.</p>
-        <ul>
-            <li>
-                <dl>
-                    <dt><a href="https://www.identityvgame.com/en/character/index.html?type=survivors">Sopravvissuto</a></dt>
-                    <dd>Il giocatore che deve sopravvivere agli attacchi del cacciatore.
-                        <br> Ci sono molti personaggi per cui scegliere:
-                        <ol>
-                            <li>Gardener<br><img src="Gardener.png" alt="Gardener" width="100"></li>
-                            <li>Doctor<br><img src="Doctor.png" alt="Doctor" width="100"></li>
-                            <li>Mechanic<br><img src="Mechanic.png" alt="MechanicB" width="100"></li>
-                            <li>Explorer<br><img src="Explorer.png" alt="Explorer" width="100"></li>
-                            <li>Mercenary<br><img src="Mercenary.png" alt="Mercenary" width="100"></li>
-                            <li>......</li>
-                        </ol>
-                    </dd>
-                </dl>
-            </li>
-            <li>
-                <dl>
-                    <dt><a href="https://www.identityvgame.com/en/character/index.html?type=hunters">Cacciatore</a></dt>
-                    <dd>Il giocatore che deve cacciare e uccidere i sopravvissuti.
-                        <br> Ci sono molti personaggi per cui scegliere:
-                        <ol>
-                            <li>Smiley Face<br><img src="1.png" alt="Smiley Face" width="100"></li>
-                            <li>Hell Ember<br><img src="2.png" alt="Hell Ember" width="100"></li>
-                            <li>Bloody Queen<br><img src="3.png" alt="Bloody Queen" width="100"></li>
-                            <li>Photographer<br><img src="4.png" alt="Photographer" width="100"></li>
-                            <li><dl><dt>The Ripper<br><img src="5.png" alt="The Ripper" width="100"></dt>
-                                <dd>Un personaggio che mi piace molto.
-                                    <a href="detail.html">Scopri di più</a></dd>
-                            </dl></li>
-                            <li>......</li>
-                    </dd>
-                </dl>
-            </li>
-            <li>
-                <dl>
-                    <dt><a href="https://www.identityvgame.com/en/game-mechanics.html#asymmetrical-gaming">Gioco Asimmetrico</a></dt>
-                    <dd>Un gioco in cui i giocatori hanno ruoli e obiettivi diversi.</dd>
-                </dl>
-            </li>
-        </ul>
+    <div id="canvascontainer" style="width:100%;height: 100%;overflow: hidden;">
+        <canvas id="glcanvas" width="100vw" height="100vh" tabindex="1"></canvas>
+    </div>
+
+    
+    <script type="text/javascript" src="js/patch.js" async></script>
+    
+
+    <script type="text/javascript">
+
+        function showError(initiator,...args)
+        {
+            CABLES.logErrorConsole("[" + initiator + "]", ...args);
+        }
+
+        function patchInitialized(patch)
+        {
+            // You can now access the patch object (patch), register variable watchers and so on
+        }
+
+        function patchFinishedLoading(patch)
+        {
+            // The patch is ready now, all assets have been loaded
+        }
+
+        document.addEventListener("CABLES.jsLoaded", function (event)
+        {
+            CABLES.patch = new CABLES.Patch({
+            patch: CABLES.exportedPatch,
+            "prefixAssetPath": "",
+            "assetPath": "assets/",
+            "jsPath": "js/",
+            "glCanvasId": "glcanvas",
+            "glCanvasResizeToWindow": true,
+            "onError": showError,
+            "onPatchLoaded": patchInitialized,
+            "onFinishedLoading": patchFinishedLoading,
+            "canvas": {"alpha":true, "premultipliedAlpha":true } // make canvas transparent
+        });
+        });
+
+        // disable rubberband effect on mobile devices
+        document.getElementById('glcanvas').addEventListener('touchmove', (e)=>{ e.preventDefault(); }, false);
+    </script>
 </body>
 </html>
